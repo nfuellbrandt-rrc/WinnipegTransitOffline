@@ -25,5 +25,7 @@ interface StopDao {
     @Update
     suspend fun updateStopFavorite(stop: Stop)
 
+    @Query("DELETE FROM StopSchedules WHERE stop LIKE '%number%' || :number || '%'")
+    suspend fun deleteOldSchedule(number: String)
 //    @Query("SELECT * FROM stops WHERE ")
 }

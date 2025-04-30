@@ -9,11 +9,13 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
-import com.example.winnipegtransitoffline.R
 import com.example.winnipegtransitoffline.destinations.Destination
 
+/**
+ * A navigation bar displayed at the bottom of the screen.
+ * @param navController The navController used to navigate to each page.
+ */
 @Composable
 fun BottomNav(navController: NavController) {
     NavigationBar {
@@ -21,7 +23,7 @@ fun BottomNav(navController: NavController) {
         val currentDestination = navBackStackEntry?.destination
 
 
-        val ic_plan_route = painterResource(id = R.drawable.ic_plan_route)
+//        val ic_plan_route = painterResource(id = R.drawable.ic_plan_route)
 
         NavigationBarItem(
             selected = currentDestination?.route == Destination.SavedStops.route,

@@ -43,6 +43,14 @@ import com.utsman.osmandcompose.rememberCameraState
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 
+/**
+ * Displays a screen showing a bus stop and busses arriving at the stop.
+ * @param modifier The modifier to apply to the screen.
+ * @param db The database holding the data.
+ * @param stopsManager The StopsManager used to request data.
+ * @param stopID The id of the stop to display information about.
+ * @param mvvm The ViewModel to store requested data.
+ */
 @Composable
 fun StopScreen(
     modifier: Modifier,
@@ -109,7 +117,6 @@ fun StopScreen(
                     stopsManager.setFavoriteStop(db, stop!!.key, it)
                     checked = it
                     mvvm.stop_data!!.isFavorite = it
-                    Log.i("toggled favorite", "OOH BIG SPOOKY, ${mvvm.stop_data}, $it")
                 },
                 modifier = Modifier
             )
@@ -168,7 +175,7 @@ fun StopScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Log.i("Data", mvvm.data.toString())
+            Log.i("ooh look at me", mvvm.data.toString())
             items(mvvm.data) { scheduleData ->
                 Row(
                     modifier = Modifier
@@ -196,6 +203,11 @@ fun StopScreen(
     }
 }
 
+/**
+ * A function to convert from time stamp (2025-04-25T14:30) to simple time (2:30 PM)
+ * @param datetime The datetime to convert.
+ * @return The converted time.
+ */
 fun dateTimeToTimeStamp(datetime: String): String {
     try {
         val time = datetime.split('T')[1].split(':')
@@ -211,7 +223,6 @@ fun dateTimeToTimeStamp(datetime: String): String {
         return "$hours:$minutes $meridiem"
     }
     catch (e: IndexOutOfBoundsException) {
-        Log.e("Invalid Timestamp", datetime)
         return ""
     }
 }

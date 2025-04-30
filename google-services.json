@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "50959330480",
+    "project_id": "winnipegtransitoffline-4a09c",
+    "storage_bucket": "winnipegtransitoffline-4a09c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50959330480:android:696de17f756e2537af5f75",
+        "android_client_info": {
+          "package_name": "com.example.winnipegtransitoffline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "50959330480-ums3vap6v4ic6oqs875sp9rurijcsg9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.winnipegtransitoffline",
+            "certificate_hash": "34a71765fbb3cba0ff70673bcb8cf24faffe0084"
+          }
+        },
+        {
+          "client_id": "50959330480-4mlpvt2u2kredsul4ik1mn1770ve70gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9K_V8HCHVPs4VZXwzSgrQZVYlYfkpq8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "50959330480-4mlpvt2u2kredsul4ik1mn1770ve70gv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

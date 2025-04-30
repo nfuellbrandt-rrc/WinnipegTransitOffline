@@ -37,6 +37,13 @@ import com.utsman.osmandcompose.rememberCameraState
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 
+/**
+ * Displays a Screen of all the stops that are saved.
+ * @param modifier The modifier to apply to the screen.
+ * @param stopsManager The stopManager to request data from.
+ * @param navController The navController used to display individual stops.
+ * @param db The database used to store data.
+ */
 @Composable
 fun SavedStopsScreen(
     modifier: Modifier = Modifier,
@@ -63,7 +70,13 @@ fun SavedStopsScreen(
     }
 }
 
-// probably shouldn't be String but will fix that when I know what it will be
+/**
+ * A Card used to display details about the saved stops.
+ * @param stop The stop to display information of.
+ * @param stopsManager The stopsManager to request data from.
+ * @param navController The navController used to display individual stops.
+ * @param db The database used to store data.
+ */
 @Composable
 fun SavedStopCard(
     stop: Stop,
@@ -137,8 +150,6 @@ fun SavedStopCard(
                 modifier = Modifier.fillMaxSize(3/4F)
             )
 
-
-            // Change this to star/heart eventually
             Checkbox(
                 checked = checked,
                 onCheckedChange = {

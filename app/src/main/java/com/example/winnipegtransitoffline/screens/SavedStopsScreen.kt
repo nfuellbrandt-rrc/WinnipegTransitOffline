@@ -1,5 +1,6 @@
 package com.example.winnipegtransitoffline.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.winnipegtransitoffline.api.StopsManager
+import com.example.winnipegtransitoffline.api.db.AppDatabase
 import com.example.winnipegtransitoffline.api.model.Stop
 import com.utsman.osmandcompose.DefaultMapProperties
 import com.utsman.osmandcompose.Marker
@@ -39,7 +41,8 @@ import org.osmdroid.util.GeoPoint
 fun SavedStopsScreen(
     modifier: Modifier = Modifier,
     stopsManager: StopsManager,
-    navController: NavHostController
+    navController: NavHostController,
+    db: AppDatabase
 ) {
     val savedThingsList = stopsManager.stopsResponse.value
 
@@ -49,10 +52,12 @@ fun SavedStopsScreen(
             .background(Color.LightGray)
             .fillMaxSize()
     ) {
-        items(savedThingsList) {
+        items(savedThingsList.filter { it.isFavorite }) {
             SavedStopCard(
                 stop = it,
-                navController = navController
+                stopsManager = stopsManager,
+                navController = navController,
+                db = db
             )
         }
     }
@@ -62,10 +67,12 @@ fun SavedStopsScreen(
 @Composable
 fun SavedStopCard(
     stop: Stop,
-    navController: NavHostController
+    stopsManager: StopsManager,
+    navController: NavHostController,
+    db: AppDatabase
 ) {
     var checked by remember {
-        mutableStateOf(true)
+        mutableStateOf(stop.isFavorite)
     }
     val cameraState = rememberCameraState {
         geoPoint = GeoPoint(
@@ -134,7 +141,11 @@ fun SavedStopCard(
             // Change this to star/heart eventually
             Checkbox(
                 checked = checked,
-                onCheckedChange = {checked = it},
+                onCheckedChange = {
+                    Log.i("Stop", stop.toString())
+                    stopsManager.setFavoriteStop(db, stop.key, it)
+                    checked = it
+                },
                 modifier = Modifier.fillMaxSize()
             )
         }

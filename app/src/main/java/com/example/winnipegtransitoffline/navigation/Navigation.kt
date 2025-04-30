@@ -41,14 +41,14 @@ fun BottomNav(navController: NavController) {
             icon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search") },
             label = { Text(text = Destination.Search.route)}
         )
-        NavigationBarItem(
-            selected = currentDestination?.route == Destination.PlanRoute.route,
-            onClick = { navController.navigate(Destination.PlanRoute.route) {
-                popUpTo(Destination.PlanRoute.route)
-                launchSingleTop = true
-            }},
-            icon = { Icon(painter =  ic_plan_route, contentDescription = null)},
-            label = { Text(text = "plan route")}
-        )
+//        NavigationBarItem(
+//            selected = currentDestination?.route == Destination.PlanRoute.route,
+//            onClick = { navController.navigate(Destination.PlanRoute.route) {
+//                popUpTo(Destination.PlanRoute.route)
+//                launchSingleTop = true
+//            }},
+//            icon = { Icon(painter =  ic_plan_route, contentDescription = null)},
+//            label = { Text(text = "plan route")}
+//        )
     }
 }

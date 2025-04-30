@@ -11,7 +11,7 @@ import com.example.winnipegtransitoffline.api.model.Stop
 import com.example.winnipegtransitoffline.api.model.StopSchedule
 
 
-@Database(entities = [Stop::class, StopSchedule::class], version = 6, exportSchema = false)
+@Database(entities = [Stop::class, StopSchedule::class], version = 7, exportSchema = false)
 @TypeConverters(DataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun stopDao() : StopDao

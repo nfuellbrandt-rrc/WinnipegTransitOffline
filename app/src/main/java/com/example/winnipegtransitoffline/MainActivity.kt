@@ -27,8 +27,6 @@ import com.example.winnipegtransitoffline.api.model.StopSchedule
 import com.example.winnipegtransitoffline.destinations.Destination
 import com.example.winnipegtransitoffline.mvvm.ModelViewViewModel
 import com.example.winnipegtransitoffline.navigation.BottomNav
-import com.example.winnipegtransitoffline.screens.PlanRouteScreen
-import com.example.winnipegtransitoffline.screens.RouteScreen
 import com.example.winnipegtransitoffline.screens.SavedStopsScreen
 import com.example.winnipegtransitoffline.screens.SearchScreen
 import com.example.winnipegtransitoffline.screens.StopScreen
@@ -88,20 +86,23 @@ fun TransitApp(
                 SavedStopsScreen(
                     modifier = Modifier.padding(paddingValues),
                     stopsManager = stopsManager,
-                    navController = navController
+                    navController = navController,
+                    db = db
                 )
             }
             composable(Destination.Search.route) {
                 SearchScreen(
-                    modifier = Modifier.padding(paddingValues)
-                )
-            }
-            composable(Destination.PlanRoute.route) {
-                PlanRouteScreen(
                     modifier = Modifier.padding(paddingValues),
-                    navController = navController
+                    navController = navController,
+                    stopsManager = stopsManager
                 )
             }
+//            composable(Destination.PlanRoute.route) {
+//                PlanRouteScreen(
+//                    modifier = Modifier.padding(paddingValues),
+//                    navController = navController
+//                )
+//            }
             composable(Destination.Stop.route) { navBackStackEntry ->
                 var stop by remember {
                     mutableStateOf<StopSchedule?>(null)
@@ -116,11 +117,11 @@ fun TransitApp(
                     mvvm = mvvm
                 )
             }
-            composable(Destination.Route.route) {
-                RouteScreen(
-                    modifier = Modifier.padding(paddingValues)
-                )
-            }
+//            composable(Destination.Route.route) {
+//                RouteScreen(
+//                    modifier = Modifier.padding(paddingValues)
+//                )
+//            }
         }
     }
 }

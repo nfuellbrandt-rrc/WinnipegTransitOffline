@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +24,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.example.winnipegtransitoffline.api.StopsManager
 import com.example.winnipegtransitoffline.api.db.AppDatabase
@@ -51,13 +55,25 @@ fun StopScreen(
         mvvm.setStopData(stopID)
     }
 
-    var stop = mvvm.stop_data
+    val stop = mvvm.stop_data
+
+    var checked by remember {
+        mutableStateOf(true)
+    }
+
+    LaunchedEffect(stop) {
+        if (stop != null) {
+            checked = stop.isFavorite
+        }
+    }
 
     val cameraState = rememberCameraState {
-        geoPoint = GeoPoint(
-            stop?.centre?.geographic?.latitude?.toDouble() ?: 0.0,
-            stop?.centre?.geographic?.longitude?.toDouble() ?: 0.0
-        )
+        geoPoint = stop?.let {
+            GeoPoint(
+            stop.centre.geographic.latitude.toDouble(),
+            stop.centre.geographic.longitude.toDouble()
+            )
+        } ?: GeoPoint(0.0, 0.0)
         zoom = 17.0
     }
 
@@ -79,6 +95,26 @@ fun StopScreen(
         modifier = modifier
             .background(Color.LightGray)
     ) {
+        Row (modifier = Modifier.align(Alignment.End)){
+            Text(
+                text = "Save?",
+                fontSize = TextUnit(5f, TextUnitType.Em),
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+            )
+            Checkbox(
+                checked = checked,
+                onCheckedChange = {
+                    Log.i("Stop", stop.toString())
+                    stopsManager.setFavoriteStop(db, stop!!.key, it)
+                    checked = it
+                    mvvm.stop_data!!.isFavorite = it
+                    Log.i("toggled favorite", "OOH BIG SPOOKY, ${mvvm.stop_data}, $it")
+                },
+                modifier = Modifier
+            )
+
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -132,8 +168,9 @@ fun StopScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            Log.i("Data", mvvm.data.toString())
             items(mvvm.data) { scheduleData ->
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {

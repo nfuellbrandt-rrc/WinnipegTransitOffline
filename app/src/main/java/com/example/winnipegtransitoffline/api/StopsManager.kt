@@ -39,7 +39,7 @@ class StopsManager(database: AppDatabase) {
 
     private fun getStopsFromRoom(database: AppDatabase) {
         CoroutineScope(Dispatchers.IO).launch {
-            _stopsResponse.value += database.stopDao().getAllStops()
+            _stopsResponse.value = database.stopDao().getAllStops()
         }
     }
 
@@ -75,7 +75,7 @@ class StopsManager(database: AppDatabase) {
 
     // need to create 3 requests saturday, sunday, weekday
     // StopSchedule.date
-    private fun getStopsById(database: AppDatabase, id: Int, onComplete: (StopSchedule) -> Unit) {
+    private fun getSchedulesById(database: AppDatabase, id: Int, onComplete: (StopSchedule) -> Unit) {
         val dates = arrayOf("Weekday", "Saturday", "Sunday")
         var times = arrayOf<Calendar>()
 
@@ -140,8 +140,8 @@ class StopsManager(database: AppDatabase) {
         }
     }
 
-    public fun getStopById(db: AppDatabase, id: Int, onComplete: (StopSchedule) -> Unit): StopSchedule? {
-        getStopsById(database = db, id = id, onComplete)
+    public fun getScheduleById(db: AppDatabase, id: Int, onComplete: (StopSchedule) -> Unit): StopSchedule? {
+        getSchedulesById(database = db, id = id, onComplete)
         return stop.value
     }
 
@@ -157,9 +157,26 @@ class StopsManager(database: AppDatabase) {
         }
     }
 
+    fun setFavoriteStop(database: AppDatabase, stopId: Int, isFavorite: Boolean) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val stop = database.stopDao().getStopByID(stopId)
+            Log.i("Stop", stop.toString())
+            stop.isFavorite = isFavorite
+            Log.i("Stop", stop.toString())
+            database.stopDao().updateStopFavorite(stop)
+            _stopsResponse.value = database.stopDao().getAllStops()
+        }
+    }
+
+    fun getStopById(database: AppDatabase, number: Int, callback: (Stop) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val stop = database.stopDao().getStopByID(number)
+            callback(stop)
+        }
+    }
+
     private fun calendarToTimestamp(time: Calendar): String {
-        // simply amazing formatting
-        val thing = String.format(
+        return String.format(
             "%s-%s-%sT%s:%s:%s",
             time.get(Calendar.YEAR),
             (time.get(Calendar.MONTH) + 1).toString().padStart(2, '0'),
@@ -168,7 +185,6 @@ class StopsManager(database: AppDatabase) {
             time.get(Calendar.MINUTE).toString().padStart(2, '0'),
             time.get(Calendar.SECOND).toString().padStart(2, '0')
         )
-        return thing
     }
 }
 

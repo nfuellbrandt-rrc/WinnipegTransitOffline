@@ -23,5 +23,6 @@ data class Stop(
     @Json(name = "number")
     val number: Int,
     @Json(name = "side")
-    val side: String
+    val side: String,
+    var isFavorite: Boolean = false
 )
